@@ -53,7 +53,7 @@ class MacAutomation:
         :return:
         """
         times = 20
-        interval = max_time/times
+        interval = max_time / times
         ele = False
         for i in range(times):
             try:
@@ -63,7 +63,7 @@ class MacAutomation:
                     element = self.driver.find_element(by=by, value=value)
             except Exception as e:
                 # print(e)
-                print("未找到,休眠{}s后,继续查找;共耗时{}s".format(interval, interval*(i+1)))
+                print("未找到,休眠{}s后,继续查找;共耗时{}s".format(interval, interval * (i + 1)))
                 time.sleep(interval)
             else:
                 ele = element

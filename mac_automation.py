@@ -33,7 +33,7 @@ class MacAutomation:
         if caps is None:
             caps = {'appium:automationName': 'Mac2', 'platformName': 'mac',
                     'appium:bundleId': 'xxx', 'appium:noReset': True,
-                    'appium:connectHardwareKeyboard': True}
+                    'appium:connectHardwareKeyboard': True, "appium:newCommandTimeout": 2000}
         self.driver = webdriver.Remote("http://{}:{}".format(mac_ip, port), caps)
         if self.driver is not None:
             print("非首次连接,先退出之前连接")

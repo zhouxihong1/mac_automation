@@ -33,19 +33,23 @@ class MacAutomation:
         if caps is None:
             caps = {'appium:automationName': 'Mac2', 'platformName': 'mac',
                     'appium:bundleId': 'xxx', 'appium:noReset': True,
-                    'appium:connectHardwareKeyboard': True}
+                    'appium:connectHardwareKeyboard': True, "appium:newCommandTimeout": 2000}
         self.driver = webdriver.Remote("http://{}:{}".format(mac_ip, port), caps)
         if self.driver is not None:
             print("非首次连接,先退出之前连接")
             self.quit()
         self.driver = webdriver.Remote("http://{}:{}".format(mac_ip, port), caps)
 
-    def active_window(self):
+    def active_window(self, delay=0, bundle_id='xxx'):
         """
         激活当前应用程序 -> 由于链接跳转或者第三方应用被链式打开,此时需要重新激活当前应用程序,然后继续自动化操作
+        :param bundle_id: bundleId为要激活的程序id
+        :param delay: 延时,单位是秒,默认没有延时,解决有些窗体延时出现挡住主窗体问题
         :return:
         """
-        self.__init__()  # 重新初始化
+        time.sleep(delay)
+        self.driver.execute_script("macos: activateApp", {"bundleId": bundle_id})
+        # self.__init__()  # 重新初始化
 
     def quit(self):
         """
@@ -63,18 +67,20 @@ class MacAutomation:
         :param is_elements: 是否查找一组元素,默认是FALSE
         :return:
         """
-        times = 20
-        interval = max_time / times
+        times = 10
+        interval = max_time/times
         ele = False
         for i in range(times):
             try:
+                if i > int(times/2):
+                    self.active_window()  # 新增查找时间超过1/2 最大次数时,会将窗体激活,解决有些窗体延时出现挡住当前窗体找不到
                 if is_elements:
                     element = self.driver.find_elements(by=by, value=value)
                 else:
                     element = self.driver.find_element(by=by, value=value)
             except Exception as e:
                 # print(e)
-                print("未找到,休眠{}s后,继续查找;共耗时{}s".format(interval, interval * (i + 1)))
+                print("未找到,休眠{}s后,继续查找;共耗时{}s".format(interval, interval*(i+1)))
                 time.sleep(interval)
             else:
                 ele = element

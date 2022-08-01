@@ -40,14 +40,16 @@ class MacAutomation:
             self.quit()
         self.driver = webdriver.Remote("http://{}:{}".format(mac_ip, port), caps)
 
-    def active_window(self, delay=0):
+    def active_window(self, delay=0, bundle_id='xxx'):
         """
         激活当前应用程序 -> 由于链接跳转或者第三方应用被链式打开,此时需要重新激活当前应用程序,然后继续自动化操作
+        :param bundle_id: bundleId为要激活的程序id
         :param delay: 延时,单位是秒,默认没有延时,解决有些窗体延时出现挡住主窗体问题
         :return:
         """
         time.sleep(delay)
-        self.__init__()  # 重新初始化
+        self.driver.execute_script("macos: activateApp", {"bundleId": bundle_id})
+        # self.__init__()  # 重新初始化
 
     def quit(self):
         """

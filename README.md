@@ -40,8 +40,7 @@ nrm use tencent
 ### 6. 安装`Appium2.0`环境
 #### 6.1 在终端中输入
 ```text
-npm i -g appium@beta
-或者 npm i -g appium@next
+npm i -g appium@next
 ```
 
 来安装 `Appium 2.0`版本

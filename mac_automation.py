@@ -35,6 +35,17 @@ class MacAutomation:
                     'appium:bundleId': 'xxx', 'appium:noReset': True,
                     'appium:connectHardwareKeyboard': True}
         self.driver = webdriver.Remote("http://{}:{}".format(mac_ip, port), caps)
+        if self.driver is not None:
+            print("非首次连接,先退出之前连接")
+            self.quit()
+        self.driver = webdriver.Remote("http://{}:{}".format(mac_ip, port), caps)
+
+    def active_window(self):
+        """
+        激活当前应用程序 -> 由于链接跳转或者第三方应用被链式打开,此时需要重新激活当前应用程序,然后继续自动化操作
+        :return:
+        """
+        self.__init__()  # 重新初始化
 
     def quit(self):
         """

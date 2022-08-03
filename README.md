@@ -78,7 +78,8 @@ appium driver install mac2
   "appium:automationName": "Mac2",
   "platformName": "mac",
   "appium:bundleId": "xxx",
-  "appium:noReset": true
+  "appium:noReset": true,
+  "appium:newCommandTimeout": 2000
 }
 ```
 
